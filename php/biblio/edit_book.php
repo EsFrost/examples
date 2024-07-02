@@ -4,15 +4,15 @@ include_once('./config.php');
 
 $err = '';
 $actionPerformed = '';
+$titre = '';
+$author = '';
+$dispo = 0;
+$flag = 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editFunction'])) {
     if (isset($_POST['id'])) {
         $id = $_POST['id'];
-
-        $titre = '';
-        $author = '';
-        $dispo = 0;
-
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         if($id) {
             $stmt = $mysqli->prepare("SELECT * FROM livres WHERE id = ?");
             $stmt->bind_param("i", $id);
@@ -30,30 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editFunction'])) {
             $stmt->close();
         }
         
-        // Validate and sanitize the ID as needed
-        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
-        if (isset($_POST['titleInput'])) {
-            $titre = filter_var($_POST['titleInput'], FILTER_SANITIZE_STRING);
-        }
-        if (isset($_POST['authorInput'])) {
-            $author = filter_var($_POST['authorInput'], FILTER_SANITIZE_STRING);
-        }
-        if (isset($_POST['availability'])) {
-            $dispo = $_POST['availability'] === 'on' ? 1 : 0;
-        }
-
-        // Process the ID (e.g., edit the record in the database)
-        $stmt = $mysqli->prepare("UPDATE livres SET titre = ?, auteur = ?, dispo = ? WHERE id = ?");
-        $stmt->bind_param("ssii", $titre, $author, $dispo, $id);
-        $stmt->execute();
-
-        if ($stmt->affected_rows < 1) {
-            $err =  "No record found with ID " . htmlspecialchars($id) . ".";
-        } else {
-            $actionPerformed = "Record updated successfully.";
-        }
-
-        $stmt->close();
     } else {
         $err = "ID not received.";
     }
@@ -88,10 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editFunction'])) {
                     ."</h1>";
         }
     ?>
-    <form action="edit_book.php" method="POST">
+    <form action="save_edit.php" method="POST" id="editForm">
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
         <div class="flex gap-x-8 justify-center mt-8">
             <div class="flex-column">
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
+            <input type="hidden" name="editFunction" value="true">
                 <div>
                     <label for="titleInput">Title:</label>
                 </div>
@@ -112,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editFunction'])) {
                     <label for="availability">Availability:</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="availability" name="availability" <?php echo $dispo ? 'checked' : ''; ?>>
+                    <input type="checkbox" id="availability" name="availability" value="yes" <?php echo $dispo === 1 ? 'checked' : ''; ?>>
                 </div>
             </div>
         </div>
@@ -125,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editFunction'])) {
         ?>
         
         <div class="mt-8 flex justify-center">
-            <button type="submit" name="editFunction">Save</button> 
+            <button type="submit" name="saveEdit">Save</button> 
         </div>
     </form>
     <div class="mt-8 flex justify-center gap-x-8">
@@ -135,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editFunction'])) {
     <script>
         document.querySelector('#clickBtn').addEventListener('click', function() {
             window.location.href = '/biblio/'
-        });
+        })
     </script>
 </body>
 </html>
