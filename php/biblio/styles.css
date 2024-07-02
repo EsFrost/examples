@@ -1,0 +1,6 @@
+/* npx tailwindcss -i ./tailwind.css -o ./tailwind_output.css --watch */
+
+body {
+    background: #181818;
+    color: rgb(224, 224, 224);
+}
