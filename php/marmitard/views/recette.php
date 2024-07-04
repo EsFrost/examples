@@ -1,8 +1,9 @@
 <?php
 
-include_once('../db/db.php');
+session_start();
 
 include_once('../includes/navbar.php');
+include_once('../includes/functions.php');
 
 ?>
 
@@ -11,27 +12,12 @@ include_once('../includes/navbar.php');
     <?php
 
     $data = '';
+    $categories = array();
 
     if (isset($_GET['id'])) {
-        $stmt = $pdo->prepare("SELECT * FROM recettes WHERE id = :id");
-        $stmt -> bindParam(':id', $_GET['id']);
-
-        $stmt2 = $pdo->prepare("SELECT c.nom FROM recettes r JOIN categories c ON r.id_category = c.id WHERE r.id = :id");
-        $stmt2 -> bindParam(':id', $_GET['id']);
-        try {
-            $stmt->execute();
-            $stmt2->execute();
-        }
-        catch (Exception $e) {
-            echo $e->getMessage();
-        }
-
-        $data = $stmt->fetch();
-        $categories = array();
-
-        while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)){
-            $categories[] = $row;
-        }
+        $res = getSingleRecipe($_GET['id']);
+        $data = $res['data'];
+        $categories = $res['categories'];
 
         $ingredients = explode(",", $data['liste_ingredients']);
 
@@ -70,6 +56,7 @@ include_once('../includes/navbar.php');
     }
     else {
         header('Location: http://localhost/marmitard/');
+        exit();
     }
 
     ?>

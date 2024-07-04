@@ -1,0 +1,5 @@
+add category
+edit categories / recipes
+delete categories/recipes
+
+fix register controller so that is shows error messages on register page

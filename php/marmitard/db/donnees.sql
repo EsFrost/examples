@@ -12,15 +12,15 @@ INSERT INTO `categories` (`nom`, `description`) VALUES
 
 INSERT INTO `users` (`nom`, `prenom`, `email`, `age`, `mdp`, `sexe`, `profile_image`, `status`) VALUES
 ('Doe', 'John', 'john.doe@example.com', 30, 'password123', 'Homme', 'john_doe.jpg', 'User'),
-('Smith', 'Jane', 'jane.smith@example.com', 25, 'password123', 'Female', 'jane_smith.jpg', 'User'),
+('Smith', 'Jane', 'jane.smith@example.com', 25, 'password123', 'Femme', 'jane_smith.jpg', 'User'),
 ('Brown', 'Charlie', 'charlie.brown@example.com', 35, 'password123', 'Homme', 'charlie_brown.jpg', 'User'),
-('Wilson', 'Anna', 'anna.wilson@example.com', 28, 'password123', 'Female', 'anna_wilson.jpg', 'User'),
+('Wilson', 'Anna', 'anna.wilson@example.com', 28, 'password123', 'Femme', 'anna_wilson.jpg', 'User'),
 ('Taylor', 'James', 'james.taylor@example.com', 40, 'password123', 'Homme', 'james_taylor.jpg', 'User'),
-('Johnson', 'Emily', 'emily.johnson@example.com', 22, 'password123', 'Female', 'emily_johnson.jpg', 'User'),
+('Johnson', 'Emily', 'emily.johnson@example.com', 22, 'password123', 'Femme', 'emily_johnson.jpg', 'User'),
 ('White', 'Michael', 'michael.white@example.com', 50, 'password123', 'Homme', 'michael_white.jpg', 'User'),
-('Martin', 'Olivia', 'olivia.martin@example.com', 27, 'password123', 'Female', 'olivia_martin.jpg', 'User'),
+('Martin', 'Olivia', 'olivia.martin@example.com', 27, 'password123', 'Femme', 'olivia_martin.jpg', 'User'),
 ('Lee', 'David', 'david.lee@example.com', 33, 'password123', 'Homme', 'david_lee.jpg', 'User'),
-('Walker', 'Sophia', 'sophia.walker@example.com', 29, 'password123', 'Female', 'sophia_walker.jpg', 'User');
+('Walker', 'Sophia', 'sophia.walker@example.com', 29, 'password123', 'Femme', 'sophia_walker.jpg', 'User');
 
 INSERT INTO `recettes` (`nom`, `liste_ingredients`, `description`, `status`, `photos`, `id_user`, `id_category`) VALUES
 ('Spaghetti Carbonara', 'Spaghetti, eggs, pancetta, Parmesan cheese', 'A classic Italian pasta dish.', 1, 'carbonara.jpg', 1, 2),

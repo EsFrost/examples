@@ -8,6 +8,7 @@ function receiveSanitize($data) {
     }
     else {
         header("Location: http://localhost/marmitard/views/register.php" );
+        exit();
     }
 }
 
@@ -20,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     $prenom =filter_var( receiveSanitize($_POST['prenom']), FILTER_SANITIZE_STRING);
     $email = filter_var(receiveSanitize($_POST['email']), FILTER_SANITIZE_EMAIL);
     $password = filter_var(receiveSanitize($_POST['password']), FILTER_SANITIZE_STRING);
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $age = filter_var(receiveSanitize($_POST['age']), FILTER_SANITIZE_NUMBER_INT);
     $sexe = filter_var(receiveSanitize($_POST['sexe']), FILTER_SANITIZE_STRING);
     if (!empty($_FILES['profileImage'])) {
@@ -51,7 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     
     
     header("Location: http://localhost/marmitard/" );
+    exit();
 }
 else {
     header("Location: http://localhost/marmitard/views/register.php" );
+    exit();
 }
