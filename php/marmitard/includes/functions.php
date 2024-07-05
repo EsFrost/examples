@@ -72,3 +72,71 @@ function getSingleRecipe($id) {
 
     return $res;
 }
+
+function isImageUrlValid($url) {
+    // Use get_headers to fetch headers
+    $headers = @get_headers($url);
+    
+    // Check if headers are fetched and if status code is 200
+    if ($headers && strpos($headers[0], '200') !== false) {
+        // Additional check for image content-type
+        foreach ($headers as $header) {
+            if (strpos(strtolower($header), 'content-type: image') !== false) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+function getComments($id) {
+
+    global $pdo;
+
+    $data = '';
+
+    $stmt = $pdo->prepare("SELECT c.commentaires, u.prenom FROM commentaires c JOIN recettes r ON c.id_recette = r.id JOIN users u ON u.id = c.id_user WHERE r.id = :id");
+    $stmt -> bindParam(':id', $id);
+    try {
+        $stmt -> execute();
+    }
+    catch (Exception $e) {
+        echo $e -> getMEssage();
+    }
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        $comments[] = $row;
+    }
+
+    if  (!empty($comments)) {
+        return $comments;
+    }
+    else {
+        return;
+    }
+    
+}
+
+/* this doesn't work yet, fix it */
+/*
+function getNotes($id) {
+
+    global $pdo;
+
+    $data = '';
+
+    $stmt = $pdo->prepare("SELECT c.commentaires, u.prenom FROM commentaires c JOIN recettes r ON c.id_recette = r.id JOIN users u ON u.id = c.id_user WHERE r.id = :id");
+    $stmt -> bindParam(':id', $id);
+    try {
+        $stmt -> execute();
+    }
+    catch (Exception $e) {
+        echo $e -> getMEssage();
+    }
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        $comments[] = $row;
+    }
+
+    return $comments;
+}
+*/
